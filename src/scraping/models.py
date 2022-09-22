@@ -1,5 +1,7 @@
 from django.db import models
 
+from scraping.utils import from_cyrillic_to_eng
+
 
 class City(models.Model):
     name = models.CharField(max_length=50,
@@ -14,6 +16,11 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = from_cyrillic_to_eng(str(self.name))
+        super().save(*args, **kwargs)
+
 
 class Language(models.Model):
     name = models.CharField(max_length=50,
@@ -27,3 +34,26 @@ class Language(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = from_cyrillic_to_eng(str(self.name))
+        super().save(*args, **kwargs)
+
+
+class Vacancy(models.Model):
+    url = models.URLField()
+    title = models.CharField(max_length=250, verbose_name='')
+    company = models.CharField(max_length=250, verbose_name='')
+    description = models.TextField(verbose_name='')
+    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='')
+    Language = models.ForeignKey('Language', on_delete=models.CASCADE,
+                                 verbose_name='')
+
+
+
+
+
+
+
+
