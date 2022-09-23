@@ -42,14 +42,22 @@ class Language(models.Model):
 
 
 class Vacancy(models.Model):
-    url = models.URLField()
-    title = models.CharField(max_length=250, verbose_name='')
-    company = models.CharField(max_length=250, verbose_name='')
-    description = models.TextField(verbose_name='')
-    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='')
+    url = models.URLField(unique=True)
+    title = models.CharField(max_length=250, verbose_name='Заголовок вакансии')
+    company = models.CharField(max_length=250, verbose_name='Компания')
+    description = models.TextField(verbose_name='Описание вакансии')
+    city = models.ForeignKey('City', on_delete=models.CASCADE,
+                             verbose_name='Город')
     Language = models.ForeignKey('Language', on_delete=models.CASCADE,
-                                 verbose_name='')
+                                 verbose_name='Язык программирования')
+    timestamp = models.DateField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Вакансии'
+        verbose_name_plural = 'Вакансии'
+
+    def __str__(self):
+        return self.title
 
 
 
