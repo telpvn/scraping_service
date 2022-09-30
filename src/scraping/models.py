@@ -4,6 +4,7 @@ from scraping.utils import from_cyrillic_to_eng
 
 
 class City(models.Model):
+    objects = None
     name = models.CharField(max_length=50,
                             verbose_name='Название населенного пункта',
                             unique=True)
@@ -23,6 +24,7 @@ class City(models.Model):
 
 
 class Language(models.Model):
+    objects = None
     name = models.CharField(max_length=50,
                             verbose_name='Язык программирования',
                             unique=True)
@@ -59,4 +61,4 @@ class Vacancy(models.Model):
     def __str__(self):
         return self.title
 
-    
+
